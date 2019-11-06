@@ -28,30 +28,23 @@ public class DataInitializer {
         for (String[] string : strings) {
             Review review = new Review(string[1], string[3], string[9]);
             reviewRepository.save(review);
-            String[] s = string[9].split(" ");
+            String[] s = string[9].replaceAll("[^a-zA-Z\\s]", "").trim().split(" ");
             for (String s1 : s) {
                 Word word = new Word(s1);
                 wordRepository.save(word);
             }
         }
     }
+
     private List<String[]> readCsv() throws Exception {
         Reader reader = Files.newBufferedReader(Paths.get(
                 ClassLoader.getSystemResource("Reviews.csv").toURI()));
         return readAll(reader);
     }
+
     private List<String[]> readAll(Reader reader) throws Exception {
         CSVReader csvReader = new CSVReader(reader);
-//        List<String[]> list = csvReader.readAll();
-
-        List<String[]> list = new ArrayList<>();
-        String[] line;
-        for (int i = 0; i < 100; i++) {
-            if ((line = csvReader.readNext()) != null) {
-                list.add(line);
-            }
-        }
-
+        List<String[]> list = csvReader.readAll();
         reader.close();
         csvReader.close();
         return list;

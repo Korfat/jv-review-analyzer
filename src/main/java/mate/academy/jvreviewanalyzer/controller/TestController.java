@@ -25,8 +25,8 @@ public class TestController {
     }
 
     @GetMapping("/word")
-    public List<Word> getAllWords() {
-        List<Word> mostUsedWords = wordRepository.find1000MostUsedWords();
+    public List<String> getAllWords() {
+        List<String> mostUsedWords = wordRepository.find1000MostUsedWords();
         return mostUsedWords;
     }
 }
